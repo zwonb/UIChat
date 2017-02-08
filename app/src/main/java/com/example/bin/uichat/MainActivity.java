@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
                     Msg msg = new Msg(content, Msg.TYPE_SENT);
                     msgList.add(msg);
                     //刷新适配器
-                    adapter.notifyItemChanged(msgList.size() - 1);
+                    adapter.notifyItemInserted(msgList.size() - 1);
                     //滑动定位到最后一行
                     msgRecyclerView.scrollToPosition(msgList.size() - 1);
                 }
