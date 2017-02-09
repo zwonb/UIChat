@@ -46,7 +46,8 @@ public class MsgAdapter extends RecyclerView.Adapter<MsgAdapter.ViewHolder> {
             @Override
             public boolean onLongClick(View view) {
                 int i = holder.getLayoutPosition(); //获取点击是哪个item，不能放在点击外面
-                mMsgOnItemLongClick.onItemLongClick(i);
+//                mMsgOnItemLongClick.onItemLongClick(i);
+                removeItem(i);
                 return false;
             }
         });
@@ -54,7 +55,8 @@ public class MsgAdapter extends RecyclerView.Adapter<MsgAdapter.ViewHolder> {
             @Override
             public boolean onLongClick(View view) {
                 int i = holder.getLayoutPosition();
-                mMsgOnItemLongClick.onItemLongClick(i);
+//                mMsgOnItemLongClick.onItemLongClick(i);
+                removeItem(i);
                 return false;
             }
         });
@@ -81,16 +83,16 @@ public class MsgAdapter extends RecyclerView.Adapter<MsgAdapter.ViewHolder> {
         }
     }
 
-    private MsgOnItemLongClick mMsgOnItemLongClick;
+//    private MsgOnItemLongClick mMsgOnItemLongClick;
 
-    public void setmMsgOnItemLongClick(MsgOnItemLongClick MsgOnItemLongClick) {
-        this.mMsgOnItemLongClick = MsgOnItemLongClick;
-    }
+//    public void setmMsgOnItemLongClick(MsgOnItemLongClick MsgOnItemLongClick) {
+//        this.mMsgOnItemLongClick = MsgOnItemLongClick;
+//    }
 
     //长按接口
-    interface MsgOnItemLongClick {
-        void onItemLongClick(int position);
-    }
+//    interface MsgOnItemLongClick {
+//        void onItemLongClick(int position);
+//    }
 
     //删除单个item
     public void removeItem(int i) {
