@@ -1,7 +1,8 @@
 package com.example.bin.uichat;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
@@ -17,31 +18,15 @@ public class MainActivity extends AppCompatActivity {
     private Button send;
     private RecyclerView msgRecyclerView;
     private MsgAdapter adapter;
+    private boolean type;
+    private Msg msg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initMsgs();
-        inputText = (EditText) findViewById(R.id.input_text);
-        send = (Button) findViewById(R.id.send);
-        msgRecyclerView = (RecyclerView) findViewById(R.id.msg_recycler_view);
-        adapter = new MsgAdapter(msgList);
-        msgRecyclerView.setAdapter(adapter);
-        send.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String content = inputText.getText().toString();
-                if (!content.isEmpty()) {
-                    Msg msg = new Msg(content, Msg.TYPE_SENT);
-                    msgList.add(msg);
-                    //刷新适配器
-                    adapter.notifyItemInserted(msgList.size() - 1);
-                    //滑动定位到最后一行
-                    msgRecyclerView.scrollToPosition(msgList.size() - 1);
-                }
-            }
-        });
+        initView();
     }
 
     private void initMsgs() {
@@ -51,5 +36,35 @@ public class MainActivity extends AppCompatActivity {
         msgList.add(msg1);
         msgList.add(msg2);
         msgList.add(msg3);
+    }
+
+    private void initView() {
+        inputText = (EditText) findViewById(R.id.input_text);
+        send = (Button) findViewById(R.id.send);
+        msgRecyclerView = (RecyclerView) findViewById(R.id.msg_recycler_view);
+        msgRecyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
+        adapter = new MsgAdapter(msgList);
+        msgRecyclerView.setAdapter(adapter);
+        send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String content = inputText.getText().toString();
+                if (!content.isEmpty()) {
+                    if (!type){
+                        type=true;
+                        msg = new Msg(content, Msg.TYPE_SENT);
+                    }else {
+                        type=false;
+                        msg = new Msg(content, Msg.TYPE_RECEIVED);
+                    }
+                    msgList.add(msg);
+                    //刷新适配器
+                    adapter.notifyItemInserted(msgList.size() - 1);
+                    //滑动定位到最后一行
+                    msgRecyclerView.scrollToPosition(msgList.size() - 1);
+                    inputText.setText("");
+                }
+            }
+        });
     }
 }

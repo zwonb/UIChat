@@ -33,13 +33,13 @@ public class MsgAdapter extends RecyclerView.Adapter<MsgAdapter.ViewHolder> {
         if (msg.getType() == Msg.TYPE_RECEIVED) {
             //收到消息
             holder.leftLayout.setVisibility(View.VISIBLE);
+            holder.leftMsg.setText(msg.getContent());
             holder.rightLayout.setVisibility(View.GONE);
-            holder.rightMsg.setText(msg.getContent());
         }else if (msg.getType() == Msg.TYPE_SENT){
             //发送消息
             holder.rightLayout.setVisibility(View.VISIBLE);
+            holder.rightMsg.setText(msg.getContent());
             holder.leftLayout.setVisibility(View.GONE);
-            holder.leftMsg.setText(msg.getContent());
         }
     }
 
