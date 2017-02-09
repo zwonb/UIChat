@@ -66,5 +66,12 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        adapter.setmMsgOnItemLongClick(new MsgAdapter.MsgOnItemLongClick() {
+            @Override
+            public void onItemLongClick(int position) {
+                adapter.removeItem(position);
+            }
+        });
     }
 }

@@ -28,19 +28,36 @@ public class MsgAdapter extends RecyclerView.Adapter<MsgAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
         Msg msg = mMsgList.get(position);
         if (msg.getType() == Msg.TYPE_RECEIVED) {
             //收到消息
             holder.leftLayout.setVisibility(View.VISIBLE);
             holder.leftMsg.setText(msg.getContent());
             holder.rightLayout.setVisibility(View.GONE);
-        }else if (msg.getType() == Msg.TYPE_SENT){
+        } else if (msg.getType() == Msg.TYPE_SENT) {
             //发送消息
             holder.rightLayout.setVisibility(View.VISIBLE);
             holder.rightMsg.setText(msg.getContent());
             holder.leftLayout.setVisibility(View.GONE);
         }
+
+        holder.leftLayout.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                int i = holder.getLayoutPosition(); //获取点击是哪个item，不能放在点击外面
+                mMsgOnItemLongClick.onItemLongClick(i);
+                return false;
+            }
+        });
+        holder.rightLayout.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                int i = holder.getLayoutPosition();
+                mMsgOnItemLongClick.onItemLongClick(i);
+                return false;
+            }
+        });
     }
 
     @Override
@@ -62,5 +79,22 @@ public class MsgAdapter extends RecyclerView.Adapter<MsgAdapter.ViewHolder> {
             leftMsg = (TextView) itemView.findViewById(R.id.left_msg);
             rightMsg = (TextView) itemView.findViewById(R.id.right_msg);
         }
+    }
+
+    private MsgOnItemLongClick mMsgOnItemLongClick;
+
+    public void setmMsgOnItemLongClick(MsgOnItemLongClick MsgOnItemLongClick) {
+        this.mMsgOnItemLongClick = MsgOnItemLongClick;
+    }
+
+    //长按接口
+    interface MsgOnItemLongClick {
+        void onItemLongClick(int position);
+    }
+
+    //删除单个item
+    public void removeItem(int i) {
+        mMsgList.remove(i);
+        notifyItemRemoved(i);
     }
 }
